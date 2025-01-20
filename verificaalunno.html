@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verifica Alunno</title>
+</head>
+<body>
+    <h2>Controlla se l'alunno frequenta il liceo</h2>
+
+    <form id="checkForm">
+        <label for="nameInput">Inserisci cognome e nome:</label>
+        <input type="text" id="nameInput" required>
+        <button type="submit">Verifica</button>
+    </form>
+
+    <p id="result"></p>
+
+    <script>
+        let namesList = [
+            "AIMONETTI VITTORIO", "BARBIERI NICOLO'", "BARONCHELLI LINDA", "BONORA LEONARDO", 
+            "BUCCOLIERO SAMUEL GIOVANNI", "BULAI MATTIA", "CODA ZABETTA GIORGIO", "CROSERA LUCA",
+            "FIORIO SOFIA", "FLORIO BEATRICE", "GUGLIELMINI VITTORIA", "IACULLI DANIELE",
+            "LENA MARIANNA", "MACCAPANI GIULIA", "MAFFUCCI SARA", "MANEIA FRANCESCA",
+            "PANICCIA VIOLA", "PASTORATO VERONICA", "RIVARDO GIADA", "ROSSATO MARCO",
+            "SCAGLIA RAT MATTEO", "SIVANANTHAM THIPIKA", "SPADON RICCARDO", "TOLA EMMA",
+            "TURCOLIN GIADA", "VIVOLI ANDREA", "ZAGHENI PIETRO", "BASSINO FEDERICO", 
+            "BLOTTO BALDO ANGELICA", "BODINI GIORGIA", "BOTTA TOMMASO", "CESTARI DANIELE",
+            "COLAGEO CECILIA", "DELLAROLE LUCREZIA", "IAQUINTA PIETRO", "MOROCUTTI SOFIA", 
+            "NICOLA LORENZO", "OTTINO SIMONE", "PADOVANO RICCARDO", "PELOSI ALESSANDRO", 
+            "PERRI CHIARA", "PESCE TOMMASO", "PORRINO NICOLE", "ROCCATO PIETRO", 
+            "TASINATO ANDREA", "TORINO DOMINIC", "VEGIS LUCA", "ZANONE GIORGIA", 
+            "ZITTA GIOEL", "ADRAGNA GIULIA", "BARBERO LEONARDO", "CAZZARO ALICE", 
+            "COSTANZO MORGANA", "DEVINCENTIS MATTIA", "GIACOMONE CERRUTI GRETA", 
+            "LOTITO FRANCESCA", "MAROSLIC SAJRA", "MILANI GIULIA", "PASTORE NOEMI", 
+            "PERINO SOFIA", "PIZZATO LUDOVICO", "ROLANDO GABRIELE", "SAVIOLI MATTEO LUCA", 
+            "SCAGLIETTA LORENZO", "SEROTTI MARCO", "STRILCHUK ZHASMIN", "UBERTINO ROSSO EMILY", 
+            "BELLON FRANCESCO", "CAPPA ALESSIA", "CROCCO REBECCA", "CURCIO NICOLE", 
+            "DONATO EMMA", "FRANCO ALBALISA", "GALLINA ANDREA", "GENIPRO MELISSA", 
+            "GLAZAR GRETA ANOUK", "GRANDI CARLO", "MAGRI ALESSIA", "MORALES LIONEL", 
+            "QUARZO RICCARDO", "RAGONA LORENZO", "SHALA LISA", "SQUAIELLA MARTA", 
+            "STRANO GIORGIA", "ZELIC TEODORA", "AVVENTO RACHEL", "BASSAN GRETA", 
+            "BIANCHETTO SONGIA COSTANZA", "BONINO SERENA", "CAGNA VIOLA", "CASULA DANIEL", 
+            "DALLA MORA BEATRICE", "DE MORI SOFIA", "DELA CRUZ ALEXANDRA", "DI VENOSA ELISA", 
+            "ERRICO GINEVRA", "FRESCHI CHRISTIAN", "FURTUNA MARIA CRISTINA", 
+            "LANZA MADDALENA", "LUTFIJA BELINDA", "MANGIONE GIADA", "MIRABELLI LEONARDO", 
+            "MONTERVINO ARIANNA", "OVIO STELLA", "PASELLA GIORGIA", "PERAZZI MARTINA", 
+            "RONCATI NOEMI", "VENTURINI ERIC", "VOLPATO LUPARIA MATTIA", "ZATTARIN VALENTINA", 
+            "ZIN FRANCESCO", "BAJ GRETA", "BISCONCIN GIULIA", "CAPPA ZENNA AURORA", 
+            "CERRUTI EMMA", "FILA VAUDANO DAVIDE", "MARZOLA FABIO", "PANUCCIO MARIA GRAZIA", 
+            "PARLA FILIPPO", "QUAGLIA FACCIO FILIPPO", "RIZZO FEDERICO", "ROSSATO MARTA", 
+            "SAVIAN TOSCA", "TOMMASI LARA", "VEZZOLI SOFIA", "BOLLO MARTINA", 
+            "DE PRETTO RACHELE", "DI STEFANO MARTA", "FONTANA BEATRICE", "FRANZA GIULIA", 
+            "LIBRASI SAMUELE", "MAFFI CHIARA", "MAIELLO REBECCA", "METTI FEDERICO", 
+            "MILLEPEZZI ANDREA", "PIA NICOLE", "RIMOLDI VALENTINA", "ROSSIN EVA", 
+            "SIMONETTI STEFANO", "SIVIERO GRETA", "TAMIAZZO RICCARDO", "BERNARDI GIULIA", 
+            "CALIGARIS MARTINA", "CLEMENTE SILVIA", "DE PASCALE EMMA", "ERMANNI LUDOVICO", 
+            "FIOROTTO SOFIA", "FORNENGO VIOLA", "GAMBOA ALESSIA JOSSELIN", 
+            "MANTOVANI CARLOTTA", "MENEGATTO LUCA", "OTHMAN AMIRA", "PAIASSO VITTORIA", 
+            "RODRIGUES DA CRUZ BASTOS ISABEL", "ROTA TOMMASO", "RUGGERI ERICA", 
+            "SAGGION MELISSA", "TOSCANO VIRGINIA", "BENEVENGA GINEVRA", "BERRA SARA", 
+            "BORDIGNON BEATRICE", "CHIORINO EMMA", "CIANCIA EMMA", "CODA CANUN MANUELA", 
+            "DALLACQUA SILVIA", "DI PALMA ARIANNA", "FAEDO ASIA", "FAJJARY MANAR", 
+            "GELSOMINO LAURA", "MEHMETI SOFIA", "PEZZUOLO GIORGIA", "TAGHI YASSMINE", 
+            "TASSO FRANCESCA", "VALLINO NICCOLO'", "VERZA RICCARDO", "ZANGHI SAMUELE", 
+            "ZANI GRESA", "ZONCO SARA", "BARAZZOTTO GIORGIA", "BATTAGION DEBORAH", 
+            "BOUKHLAL YASSIR", "COCCOLO TERESA", "DONNA DEBORAH", "FORTI SOFIA", 
+            "HARIT BASMA", "LANARO SARA", "LAVINO ZONA CARLOTTA", "MACCHI LISA", 
+            "MOSCA LUISA", "PANARO SARA", "REGIS GAIA", "RONZANI ALESSANDRO", 
+            "SANDRI AGNESE", "SCOMPARIN SOFIA", "STROBINO ELISABETTA", "AFFILISTRA DAVIDE", 
+            "BAGNARA NICOLA", "BALDIN LETIZIA", "BRACCHINO VIOLA", "COCCOLO GIOELE", 
+            "CURTARELLO LORENZO", "CUSINATO NICOLO'", "DI LUCCIO LEONARDO", "DUELLA LARA", 
+            "FERRARI ZACCARIA", "GILA ANNA", "METTI SAMUELE", "OTTONE FEDERICO", 
+            "PANICCIA FRANCESCO", "PUSHPAKARAN CEETHUSHA", "RACHYQ ALI", "ROSSETTI MATTEO", 
+            "STROBINO MATTEO", "VERZOLETTO ALESSANDRO", "ZANI ALESSANDRO"
+        ];
+        document.getElementById('checkForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const inputName = document.getElementById('nameInput').value.toUpperCase();
+            const resultElement = document.getElementById('result');
+
+            if (namesList.includes(inputName)) {
+                resultElement.textContent = "Il nome è presente nella lista.";
+                resultElement.style.color = "green";
+            } else {
+                resultElement.textContent = "Il nome non è presente nella lista.";
+                resultElement.style.color = "red";
+            }
+        });
+    </script>
+</body>
+</html>
